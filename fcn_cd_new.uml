@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>at.ac.tuwien.infosys.communication</OriginalElement>
+  <nodes>
+    <node x="705.0" y="745.5">at.ac.tuwien.infosys.database.impl.RedisService</node>
+    <node x="-36.0" y="-14.5">at.ac.tuwien.infosys.sharedstorage.impl.SharedRedisService</node>
+    <node x="666.5" y="225.5">at.ac.tuwien.infosys.fogactioncontrol.impl.FogActionControlService</node>
+    <node x="502.5" y="625.5">at.ac.tuwien.infosys.communication.CommunicationController</node>
+    <node x="1076.5" y="1065.5">at.ac.tuwien.infosys.reasoner.resourceProvisioning.impl.ResourceProvisioning</node>
+    <node x="2040.5" y="745.5">at.ac.tuwien.infosys.computeunit.impl.ComputeUnitService</node>
+    <node x="893.0" y="745.5">at.ac.tuwien.infosys.database.impl.DatabaseService</node>
+    <node x="1751.0" y="1265.5">at.ac.tuwien.infosys.computeunit.ComputeUnitController</node>
+    <node x="190.0" y="545.5">at.ac.tuwien.infosys.communication.ICommunicationService</node>
+    <node x="1331.5" y="865.5">at.ac.tuwien.infosys.reasoner.IReasonerService</node>
+    <node x="1566.0" y="745.5">at.ac.tuwien.infosys.propagator.IPropagatorService</node>
+    <node x="1072.0" y="1185.5">at.ac.tuwien.infosys.communication.impl.CommunicationService</node>
+    <node x="192.0" y="-14.5">at.ac.tuwien.infosys.sharedstorage.impl.SharedDatabaseService</node>
+    <node x="689.5" y="425.5">at.ac.tuwien.infosys.fogactioncontrol.IContainerService</node>
+    <node x="25.0" y="1185.5">at.ac.tuwien.infosys.database.RedisService</node>
+    <node x="1558.5" y="865.5">at.ac.tuwien.infosys.propagator.PropagatorController</node>
+    <node x="530.5" y="985.5">at.ac.tuwien.infosys.watchdog.Rule</node>
+    <node x="217.5" y="1065.5">at.ac.tuwien.infosys.monitor.MonitorService</node>
+    <node x="691.0" y="1065.5">at.ac.tuwien.infosys.watchdog.WatchdogService</node>
+    <node x="219.5" y="425.5">at.ac.tuwien.infosys.fogactioncontrol.impl.DockerService</node>
+    <node x="1093.5" y="745.5">at.ac.tuwien.infosys.reasoner.impl.ReasonerService</node>
+    <node x="1771.0" y="1385.5">at.ac.tuwien.infosys.database.IDatabaseService</node>
+    <node x="1324.0" y="985.5">at.ac.tuwien.infosys.reasoner.ReasonerController</node>
+    <node x="384.5" y="225.5">at.ac.tuwien.infosys.fogactioncontrol.IFogActionControlService</node>
+    <node x="13.0" y="1065.5">at.ac.tuwien.infosys.database.DatabaseService</node>
+    <node x="462.5" y="105.5">at.ac.tuwien.infosys.sharedstorage.SharedDatabaseController</node>
+    <node x="2038.5" y="1265.5">at.ac.tuwien.infosys.computeunit.IComputeUnitService</node>
+    <node x="1074.5" y="945.5">at.ac.tuwien.infosys.reasoner.resourceProvisioning.IResourceProvisioning</node>
+    <node x="1335.0" y="1185.5">at.ac.tuwien.infosys.communication.IRequestService</node>
+    <node x="410.5" y="345.5">at.ac.tuwien.infosys.fogactioncontrol.ServiceController</node>
+    <node x="1337.0" y="1305.5">at.ac.tuwien.infosys.communication.impl.RequestService</node>
+    <node x="503.0" y="865.5">at.ac.tuwien.infosys.watchdog.RuleOperator</node>
+    <node x="190.0" y="105.5">at.ac.tuwien.infosys.sharedstorage.ISharedDatabaseService</node>
+    <node x="1568.0" y="625.5">at.ac.tuwien.infosys.propagator.impl.PropagatorService</node>
+    <node x="2203.5" y="545.5">at.ac.tuwien.infosys.database.DatabaseController</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="at.ac.tuwien.infosys.reasoner.ReasonerController" target="at.ac.tuwien.infosys.reasoner.IReasonerService">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.fogactioncontrol.impl.DockerService" target="at.ac.tuwien.infosys.sharedstorage.ISharedDatabaseService">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.fogactioncontrol.impl.DockerService" target="at.ac.tuwien.infosys.fogactioncontrol.IContainerService">
+      <point x="60.5" y="-0.0" />
+      <point x="-70.5" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.computeunit.ComputeUnitController" target="at.ac.tuwien.infosys.database.IDatabaseService">
+      <point x="0.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.communication.impl.CommunicationService" target="at.ac.tuwien.infosys.database.IDatabaseService">
+      <point x="0.0" y="14.5" />
+      <point x="1160.0" y="1394.0" />
+      <point x="-69.0" y="-6.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.computeunit.impl.ComputeUnitService" target="at.ac.tuwien.infosys.computeunit.IComputeUnitService">
+      <point x="0.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.database.impl.DatabaseService" target="at.ac.tuwien.infosys.database.impl.RedisService">
+      <point x="-67.0" y="-0.0" />
+      <point x="55.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.propagator.PropagatorController" target="at.ac.tuwien.infosys.propagator.IPropagatorService">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.propagator.impl.PropagatorService" target="at.ac.tuwien.infosys.propagator.IPropagatorService">
+      <point x="0.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.reasoner.impl.ReasonerService" target="at.ac.tuwien.infosys.communication.ICommunicationService">
+      <point x="0.0" y="-14.5" />
+      <point x="1160.0" y="565.4" />
+      <point x="90.0" y="5.399999999999977" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.monitor.MonitorService" target="at.ac.tuwien.infosys.database.IDatabaseService">
+      <point x="0.0" y="14.5" />
+      <point x="280.0" y="1400.0" />
+      <point x="-69.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.monitor.MonitorService" target="at.ac.tuwien.infosys.communication.ICommunicationService">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.sharedstorage.SharedDatabaseController" target="at.ac.tuwien.infosys.sharedstorage.ISharedDatabaseService">
+      <point x="-97.5" y="-0.0" />
+      <point x="90.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.reasoner.impl.ReasonerService" target="at.ac.tuwien.infosys.reasoner.resourceProvisioning.IResourceProvisioning">
+      <point x="0.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.fogactioncontrol.ServiceController" target="at.ac.tuwien.infosys.fogactioncontrol.IFogActionControlService">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.computeunit.ComputeUnitController" target="at.ac.tuwien.infosys.computeunit.IComputeUnitService">
+      <point x="89.0" y="-0.0" />
+      <point x="-81.5" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.communication.impl.RequestService" target="at.ac.tuwien.infosys.communication.IRequestService">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.monitor.MonitorService" target="at.ac.tuwien.infosys.database.DatabaseService">
+      <point x="-62.5" y="-0.0" />
+      <point x="67.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.reasoner.resourceProvisioning.impl.ResourceProvisioning" target="at.ac.tuwien.infosys.communication.impl.CommunicationService">
+      <point x="0.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.database.DatabaseService" target="at.ac.tuwien.infosys.database.RedisService">
+      <point x="0.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.computeunit.impl.ComputeUnitService" target="at.ac.tuwien.infosys.propagator.IPropagatorService">
+      <point x="-79.5" y="-0.0" />
+      <point x="74.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.monitor.MonitorService" target="at.ac.tuwien.infosys.watchdog.WatchdogService">
+      <point x="62.5" y="-0.0" />
+      <point x="-69.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.watchdog.WatchdogService" target="at.ac.tuwien.infosys.watchdog.Rule">
+      <point x="-40.0" y="-14.5" />
+      <point x="720.0" y="1000.0" />
+      <point x="29.5" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.communication.CommunicationController" target="at.ac.tuwien.infosys.communication.ICommunicationService">
+      <point x="0.0" y="-14.5" />
+      <point x="600.0" y="567.2" />
+      <point x="90.0" y="7.2000000000000455" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.fogactioncontrol.impl.FogActionControlService" target="at.ac.tuwien.infosys.fogactioncontrol.IContainerService">
+      <point x="0.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.watchdog.Rule" target="at.ac.tuwien.infosys.watchdog.RuleOperator">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.reasoner.impl.ReasonerService" target="at.ac.tuwien.infosys.database.impl.DatabaseService">
+      <point x="-66.5" y="-0.0" />
+      <point x="67.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.computeunit.impl.ComputeUnitService" target="at.ac.tuwien.infosys.communication.ICommunicationService">
+      <point x="0.0" y="-14.5" />
+      <point x="2120.0" y="561.8" />
+      <point x="90.0" y="1.7999999999999545" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.sharedstorage.impl.SharedDatabaseService" target="at.ac.tuwien.infosys.sharedstorage.ISharedDatabaseService">
+      <point x="0.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.communication.impl.CommunicationService" target="at.ac.tuwien.infosys.communication.ICommunicationService">
+      <point x="-88.0" y="-0.0" />
+      <point x="440.0" y="1200.0" />
+      <point x="440.0" y="569.0" />
+      <point x="90.0" y="9.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.reasoner.resourceProvisioning.impl.ResourceProvisioning" target="at.ac.tuwien.infosys.reasoner.resourceProvisioning.IResourceProvisioning">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.watchdog.WatchdogService" target="at.ac.tuwien.infosys.database.impl.RedisService">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.reasoner.resourceProvisioning.impl.ResourceProvisioning" target="at.ac.tuwien.infosys.watchdog.WatchdogService">
+      <point x="-83.5" y="-0.0" />
+      <point x="69.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.database.DatabaseController" target="at.ac.tuwien.infosys.communication.ICommunicationService">
+      <point x="-76.5" y="-0.0" />
+      <point x="90.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.propagator.PropagatorController" target="at.ac.tuwien.infosys.reasoner.IReasonerService">
+      <point x="-81.5" y="-0.0" />
+      <point x="68.5" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.database.impl.DatabaseService" target="at.ac.tuwien.infosys.database.IDatabaseService">
+      <point x="0.0" y="14.5" />
+      <point x="960.0" y="1397.0" />
+      <point x="-69.0" y="-3.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.fogactioncontrol.impl.DockerService" target="at.ac.tuwien.infosys.communication.ICommunicationService">
+      <point x="0.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.reasoner.impl.ReasonerService" target="at.ac.tuwien.infosys.propagator.IPropagatorService">
+      <point x="66.5" y="-0.0" />
+      <point x="-74.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.fogactioncontrol.impl.FogActionControlService" target="at.ac.tuwien.infosys.fogactioncontrol.IFogActionControlService">
+      <point x="-93.5" y="-0.0" />
+      <point x="95.5" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.propagator.impl.PropagatorService" target="at.ac.tuwien.infosys.communication.ICommunicationService">
+      <point x="0.0" y="-14.5" />
+      <point x="1640.0" y="563.6" />
+      <point x="90.0" y="3.6000000000000227" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.propagator.PropagatorController" target="at.ac.tuwien.infosys.database.IDatabaseService">
+      <point x="0.0" y="14.5" />
+      <point x="1640.0" y="1391.0" />
+      <point x="-69.0" y="-9.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.reasoner.impl.ReasonerService" target="at.ac.tuwien.infosys.reasoner.IReasonerService">
+      <point x="40.0" y="14.5" />
+      <point x="1200.0" y="880.0" />
+      <point x="-68.5" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.database.DatabaseController" target="at.ac.tuwien.infosys.database.IDatabaseService">
+      <point x="0.0" y="14.5" />
+      <point x="2280.0" y="1400.0" />
+      <point x="69.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.sharedstorage.impl.SharedDatabaseService" target="at.ac.tuwien.infosys.sharedstorage.impl.SharedRedisService">
+      <point x="-88.0" y="-0.0" />
+      <point x="76.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.communication.impl.CommunicationService" target="at.ac.tuwien.infosys.communication.IRequestService">
+      <point x="88.0" y="-0.0" />
+      <point x="-65.0" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5171985080812267" x="1160.5" y="697.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

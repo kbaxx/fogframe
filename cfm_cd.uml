@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>at.ac.tuwien.infosys.cloud</OriginalElement>
+  <nodes>
+    <node x="-15.0" y="425.5">at.ac.tuwien.infosys.database.impl.RedisService</node>
+    <node x="1063.5" y="305.5">at.ac.tuwien.infosys.cloud.impl.CloudService</node>
+    <node x="662.5" y="65.5">at.ac.tuwien.infosys.communication.CommunicationController</node>
+    <node x="1046.5" y="185.5">at.ac.tuwien.infosys.cloud.IOpenStackService</node>
+    <node x="-34.5" y="545.5">at.ac.tuwien.infosys.locator.LocationController</node>
+    <node x="848.5" y="185.5">at.ac.tuwien.infosys.cloud.impl.OpenStackService</node>
+    <node x="171.0" y="305.5">at.ac.tuwien.infosys.database.IDatabaseService</node>
+    <node x="-27.0" y="305.5">at.ac.tuwien.infosys.database.impl.DatabaseService</node>
+    <node x="390.0" y="65.5">at.ac.tuwien.infosys.communication.ICommunicationService</node>
+    <node x="-27.0" y="745.5">at.ac.tuwien.infosys.database.DatabaseService</node>
+    <node x="655.0" y="305.5">at.ac.tuwien.infosys.communication.IRequestService</node>
+    <node x="392.0" y="305.5">at.ac.tuwien.infosys.communication.impl.CommunicationService</node>
+    <node x="175.0" y="545.5">at.ac.tuwien.infosys.locator.impl.LocationService</node>
+    <node x="1061.5" y="425.5">at.ac.tuwien.infosys.cloud.ICloudService</node>
+    <node x="657.0" y="185.5">at.ac.tuwien.infosys.communication.impl.RequestService</node>
+    <node x="414.0" y="425.5">at.ac.tuwien.infosys.cloud.CloudController</node>
+    <node x="-15.0" y="865.5">at.ac.tuwien.infosys.database.RedisService</node>
+    <node x="163.5" y="65.5">at.ac.tuwien.infosys.database.DatabaseController</node>
+    <node x="373.0" y="545.5">at.ac.tuwien.infosys.locator.ILocationService</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="at.ac.tuwien.infosys.locator.LocationController" target="at.ac.tuwien.infosys.locator.impl.LocationService">
+      <point x="74.5" y="-0.0" />
+      <point x="-65.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.communication.CommunicationController" target="at.ac.tuwien.infosys.communication.ICommunicationService">
+      <point x="-97.5" y="-0.0" />
+      <point x="90.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.cloud.CloudController" target="at.ac.tuwien.infosys.cloud.ICloudService">
+      <point x="66.0" y="-0.0" />
+      <point x="-58.5" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.cloud.CloudController" target="at.ac.tuwien.infosys.communication.impl.CommunicationService">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.communication.impl.CommunicationService" target="at.ac.tuwien.infosys.communication.ICommunicationService">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.communication.impl.CommunicationService" target="at.ac.tuwien.infosys.database.IDatabaseService">
+      <point x="-88.0" y="-0.0" />
+      <point x="69.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.cloud.impl.CloudService" target="at.ac.tuwien.infosys.communication.IRequestService">
+      <point x="-56.5" y="-0.0" />
+      <point x="65.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.locator.impl.LocationService" target="at.ac.tuwien.infosys.locator.ILocationService">
+      <point x="65.0" y="-0.0" />
+      <point x="-67.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.database.impl.DatabaseService" target="at.ac.tuwien.infosys.database.impl.RedisService">
+      <point x="0.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.database.DatabaseController" target="at.ac.tuwien.infosys.communication.ICommunicationService">
+      <point x="76.5" y="-0.0" />
+      <point x="-90.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.locator.impl.LocationService" target="at.ac.tuwien.infosys.communication.ICommunicationService">
+      <point x="0.0" y="14.5" />
+      <point x="240.0" y="640.0" />
+      <point x="1240.0" y="640.0" />
+      <point x="1240.0" y="0.0" />
+      <point x="480.0" y="0.0" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.database.impl.DatabaseService" target="at.ac.tuwien.infosys.database.IDatabaseService">
+      <point x="67.0" y="-0.0" />
+      <point x="-69.0" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.cloud.impl.CloudService" target="at.ac.tuwien.infosys.cloud.IOpenStackService">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.communication.impl.RequestService" target="at.ac.tuwien.infosys.communication.IRequestService">
+      <point x="0.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.cloud.impl.CloudService" target="at.ac.tuwien.infosys.cloud.ICloudService">
+      <point x="0.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.database.DatabaseService" target="at.ac.tuwien.infosys.database.RedisService">
+      <point x="0.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.locator.impl.LocationService" target="at.ac.tuwien.infosys.database.IDatabaseService">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.database.DatabaseController" target="at.ac.tuwien.infosys.database.IDatabaseService">
+      <point x="0.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.cloud.impl.OpenStackService" target="at.ac.tuwien.infosys.cloud.IOpenStackService">
+      <point x="71.5" y="-0.0" />
+      <point x="-73.5" y="-0.0" />
+    </edge>
+    <edge source="at.ac.tuwien.infosys.communication.impl.CommunicationService" target="at.ac.tuwien.infosys.communication.IRequestService">
+      <point x="88.0" y="-0.0" />
+      <point x="-65.0" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.9366120218579235" x="602.5" y="447.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

@@ -1,0 +1,7 @@
+{
+  "serviceKey": "testservice4",
+  "dockerfile": "FROM jonasbonno/rpi-grovepi\nRUN pip install requests\nRUN git clone https://github.com/keyban/fogservice.git\nENTRYPOINT [\"python\"]\nCMD [\"fogservice/service.py\"]",
+  "volumes": "/dev/i2c-1:/dev/i2c-1",
+  "exposedPorts": ["8105"],
+  "privileged": true
+}
