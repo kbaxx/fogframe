@@ -31,6 +31,8 @@ public class PropertyService {
     private String ip;
     private String parentIp;
     private int parentPort;
+    private String grandParentIp;
+    private int grandParentPort;
     private long latitude;
     private long longitude;
     private Set<String> serviceTypes;
@@ -60,6 +62,8 @@ public class PropertyService {
             this.ip = props.getProperty("fog.device.ip");
             this.parentIp = props.getProperty("fog.parent.ip");
             this.parentPort = Integer.valueOf(props.getProperty("fog.parent.port"));
+            this.grandParentIp = props.getProperty("fog.grandparent.ip");
+            this.grandParentPort = Integer.valueOf(props.getProperty("fog.grandparent.port"));
             this.latitude = Long.valueOf(props.getProperty("fog.location.latitude"));
             this.longitude = Long.valueOf(props.getProperty("fog.location.longitude"));
             String serviceTypeString = props.getProperty("fog.service.types");
@@ -95,6 +99,14 @@ public class PropertyService {
 
     public int getParentPort() {
         return parentPort;
+    }
+
+    public String getGrandParentIp() {
+        return grandParentIp;
+    }
+
+    public int getGrandParentPort() {
+        return grandParentPort;
     }
 
     public long getLatitude() {

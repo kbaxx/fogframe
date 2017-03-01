@@ -131,7 +131,6 @@ public class ReasonerService implements IReasonerService {
                             log.info("--------- SUCCESSFULLY STOPPED ---------");
                         }
                     };
-//                timerMap.put(assignment, t);
                     // start the timertask
                     new Timer().schedule(t, applicationDuration);
                 }
@@ -205,12 +204,9 @@ public class ReasonerService implements IReasonerService {
 
 
 
-
-
         // resource provisioning in the cloud
         // ---------------------------------------------------------------------------------------------------
         // if some requests couldnt be deployed in the fog the rest of the services are deployed in the cloud
-
 
         // START CLOUD TIME TRACKING
         // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -352,10 +348,6 @@ public class ReasonerService implements IReasonerService {
             if(ass.getFogdevice() != null && ass.getContainer() != null) {
                 commService.sendServiceStopRequest(ass.getFogdevice(), ass.getContainer().getContainerId());
             }
-//            else{
-//                // find the migrated container and stop it
-//            }
-
         }
     }
 
@@ -375,7 +367,7 @@ public class ReasonerService implements IReasonerService {
 
     public boolean isRootFCN(){
         Fogdevice parent = dbService.getParent();
-        return parent != null && parent.getType() != null && parent.getType().equals(DeviceType.CLOUD_FOG_MIDDLEWARE);
+        return parent != null && parent.getPort() == Constants.PORT_CFM;
     }
 
     /**
@@ -450,7 +442,8 @@ public class ReasonerService implements IReasonerService {
             while(taskIter.hasNext()){
                 stopService(taskIter.next());
             }
-            removeApplicationAssignment(a);
+            // remove applicationassignment from application assignment list
+            appIter.remove();
         }
         log.info("--- MANUAL STOPPING FINISHED ---");
     }
@@ -587,7 +580,7 @@ public class ReasonerService implements IReasonerService {
             return;
         }
 
-        EventResult result = deviceFailure.hanldeDeviceFailure(fd, applicationAssignments);
+        EventResult result = deviceFailure.handleDeviceFailure(fd, applicationAssignments);
         if(result == null) return;
 
         Set<TaskRequest> requestsToMigrate = result.getRequestsToMigrate();

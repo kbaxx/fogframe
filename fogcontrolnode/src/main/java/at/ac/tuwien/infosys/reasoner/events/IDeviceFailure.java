@@ -18,5 +18,5 @@ public interface IDeviceFailure {
      * @param applicationAssignments affected application assignments to handle
      * @return event result object with the services to migrate and the affected application assignments
      */
-    EventResult hanldeDeviceFailure(Fogdevice fd, List<ApplicationAssignment> applicationAssignments);
+    EventResult handleDeviceFailure(Fogdevice fd, List<ApplicationAssignment> applicationAssignments);
 }

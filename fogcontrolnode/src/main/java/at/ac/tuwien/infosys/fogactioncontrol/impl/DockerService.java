@@ -4,6 +4,7 @@ import at.ac.tuwien.infosys.fogactioncontrol.IContainerService;
 import at.ac.tuwien.infosys.model.DockerContainer;
 import at.ac.tuwien.infosys.model.DockerImage;
 import at.ac.tuwien.infosys.sharedstorage.ISharedDatabaseService;
+import at.ac.tuwien.infosys.util.Utils;
 import com.spotify.docker.client.DefaultDockerClient;
 import com.spotify.docker.client.DockerClient;
 import com.spotify.docker.client.ProgressHandler;
@@ -34,6 +35,8 @@ public class DockerService implements IContainerService {
     private ISharedDatabaseService sharedDb;
 
     private DockerClient docker = null;
+
+    private HashSet<String> portSet = new HashSet<String>();
 
     @Value("${fog.docker}")
     private boolean DOCKER;
@@ -118,7 +121,7 @@ public class DockerService implements IContainerService {
             String imageId = createImageFromDockerfile(dockerfile, serviceKey);
             log.info("Created image with imageID="+imageId);
 
-            String randomPort = generateRandomPort();
+            String randomPort = Utils.generateRandomPort(portSet);
             String[] ports = {randomPort};
             String[] exposedPorts = image.getExposedPorts();
             Map<String, List<PortBinding>> portBindings = new HashMap<String, List<PortBinding>>();
@@ -168,18 +171,7 @@ public class DockerService implements IContainerService {
         }
     }
 
-    /**
-     * Generate a random port the deployed service is going to expose
-     * @return a random port string between 8100 and 10000
-     */
-    private String generateRandomPort(){
-        // generate a random number that is used from the outside of the container
-        // inside of the container the port is fixed to the port 8100
-        Random r = new Random();
-        int Low = 8100;
-        int High = 50000;
-        return String.valueOf(r.nextInt(High-Low) + Low);
-    }
+
 
     public void stopContainer(String dockerId){
         try {

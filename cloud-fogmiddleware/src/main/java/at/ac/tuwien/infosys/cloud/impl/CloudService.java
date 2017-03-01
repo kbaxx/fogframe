@@ -8,12 +8,14 @@ import at.ac.tuwien.infosys.util.Constants;
 import at.ac.tuwien.infosys.util.DeviceType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Kevin Bachmann on 13/12/2016.
@@ -27,12 +29,13 @@ public class CloudService implements ICloudService {
     private IRequestService requestService;
 
     @Autowired
+    @Qualifier("OpenStackNew")
     private ICloudProviderService openStackService;
 
     /**
      * Map that maps the VM hosts with the list of running service assignments (containers)
      */
-    private Map<DockerHost, List<ServiceAssignment>> vmMappings = new HashMap<DockerHost, List<ServiceAssignment>>();
+    private Map<DockerHost, List<ServiceAssignment>> vmMappings = new ConcurrentHashMap<DockerHost, List<ServiceAssignment>>();
 
 
     public void sendDataToDeployedCloudService(List<ServiceData> data) {
@@ -244,7 +247,9 @@ public class CloudService implements ICloudService {
     private void stopEmptyVMs(){
         // if the vm does not have any containers, stop VM
         // TODO: check concurrent mod exception
-        for(Map.Entry e : vmMappings.entrySet()){
+        Iterator<Map.Entry<DockerHost, List<ServiceAssignment>>> iterator = vmMappings.entrySet().iterator();
+        while(iterator.hasNext()){
+            Map.Entry<DockerHost, List<ServiceAssignment>> e = iterator.next();
             DockerHost dh = (DockerHost) e.getKey();
             List<ServiceAssignment> list = (List<ServiceAssignment>) e.getValue();
             if(list.size() == 0){

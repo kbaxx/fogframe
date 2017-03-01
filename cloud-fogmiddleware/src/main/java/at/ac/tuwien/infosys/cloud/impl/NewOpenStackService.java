@@ -1,16 +1,11 @@
 package at.ac.tuwien.infosys.cloud.impl;
 
-
 import at.ac.tuwien.infosys.cloud.ICloudProviderService;
 import at.ac.tuwien.infosys.model.DockerContainer;
 import at.ac.tuwien.infosys.model.DockerHost;
 import at.ac.tuwien.infosys.model.DockerImage;
 import at.ac.tuwien.infosys.util.Constants;
 import at.ac.tuwien.infosys.util.Utils;
-import com.google.common.base.Predicate;
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableSet;
-import com.google.inject.Module;
 import com.spotify.docker.client.DefaultDockerClient;
 import com.spotify.docker.client.DockerClient;
 import com.spotify.docker.client.exceptions.DockerException;
@@ -20,21 +15,12 @@ import com.spotify.docker.client.messages.HostConfig;
 import com.spotify.docker.client.messages.PortBinding;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.jclouds.ContextBuilder;
-import org.jclouds.compute.ComputeService;
-import org.jclouds.compute.ComputeServiceContext;
-import org.jclouds.compute.RunNodesException;
-import org.jclouds.compute.domain.Hardware;
-import org.jclouds.compute.domain.Image;
-import org.jclouds.compute.domain.NodeMetadata;
-import org.jclouds.compute.domain.Template;
-import org.jclouds.compute.options.TemplateOptions;
-import org.jclouds.javax.annotation.Nullable;
-import org.jclouds.logging.slf4j.config.SLF4JLoggingModule;
-import org.jclouds.openstack.nova.v2_0.NovaApi;
-import org.jclouds.openstack.nova.v2_0.compute.options.NovaTemplateOptions;
-import org.jclouds.openstack.nova.v2_0.domain.FloatingIP;
-import org.jclouds.openstack.nova.v2_0.extensions.FloatingIPApi;
+import org.glassfish.jersey.internal.util.Base64;
+import org.openstack4j.api.Builders;
+import org.openstack4j.api.OSClient;
+import org.openstack4j.model.common.ActionResponse;
+import org.openstack4j.model.compute.*;
+import org.openstack4j.openstack.OSFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -42,10 +28,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.*;
 
-@Service("OpenStackOld")
+@Service("OpenStackNew")
 @Slf4j
-public class OpenStackService implements ICloudProviderService {
-//public class OpenStackService {
+public class NewOpenStackService implements ICloudProviderService {
+//public class NewOpenStackService {
 
     @Value("${cloud.dockerhost.image}")
     private String dockerhostImage;
@@ -55,11 +41,7 @@ public class OpenStackService implements ICloudProviderService {
 
     private String OPENSTACK_KEYPAIR_NAME;
 
-    private Map<String, Hardware> hardwareProfiles = new HashMap<>();
-    private Map<String, Image> imageProfiles = new HashMap<>();
-
-    private NovaApi novaApi;
-    private ComputeService compute;
+    private OSClient.OSClientV2 os;
 
     private HashSet<String> portSet = new HashSet<String>();
 
@@ -77,21 +59,11 @@ public class OpenStackService implements ICloudProviderService {
         String OPENSTACK_TENANT_NAME = prop.getProperty("os.tenant.name");
         OPENSTACK_KEYPAIR_NAME = prop.getProperty("os.keypair.name");
 
-        Iterable<Module> modules = ImmutableSet.<Module>of(new SLF4JLoggingModule());
-        novaApi = ContextBuilder.newBuilder("openstack-nova")
+        os = OSFactory.builderV2()
                 .endpoint(OPENSTACK_AUTH_URL)
-                .credentials(OPENSTACK_TENANT_NAME + ":" + OPENSTACK_USERNAME, OPENSTACK_PASSWORD)
-                .modules(modules)
-                .buildApi(NovaApi.class);
-
-        ComputeServiceContext context = ContextBuilder.newBuilder("openstack-nova")
-                .endpoint(OPENSTACK_AUTH_URL)
-                .credentials(OPENSTACK_TENANT_NAME + ":" + OPENSTACK_USERNAME, OPENSTACK_PASSWORD)
-                .modules(modules)
-                .buildView(ComputeServiceContext.class);
-        compute = context.getComputeService();
-
-        loadOpenStackData();
+                .credentials(OPENSTACK_USERNAME,OPENSTACK_PASSWORD)
+                .tenantName(OPENSTACK_TENANT_NAME)
+                .authenticate();
 
         log.info("Successfully connected to " + OPENSTACK_AUTH_URL + " on tenant " + OPENSTACK_TENANT_NAME + " with user " + OPENSTACK_USERNAME);
     }
@@ -106,50 +78,49 @@ public class OpenStackService implements ICloudProviderService {
         } catch (IOException e) {
             log.error("Could not load cloud init file");
         }
+        Flavor flavor = os.compute().flavors().get(dh.getFlavor());
 
-        TemplateOptions options = NovaTemplateOptions.Builder
-                .userData(cloudInit.getBytes())
-                .keyPairName(OPENSTACK_KEYPAIR_NAME)
-                .securityGroups("default");
-        Hardware hardware = hardwareProfiles.get(dh.getFlavor());
-
-        Template template = compute.templateBuilder()
-                .locationId("myregion")
-                .options(options)
-                .fromHardware(hardware)
-                .fromImage(imageProfiles.get(dockerhostImage))
+        //TODO check if the flavors can be retrieved in future releases
+        for (Flavor f : os.compute().flavors().list()) {
+            if (f.getName().equals(dh.getFlavor())) {
+                flavor = f;
+                break;
+            }
+        }
+        ServerCreate sc = Builders.server()
+                .name(dh.getName())
+                .flavor(flavor)
+                .image(dockerhostImage)
+                .userData(Base64.encodeAsString(cloudInit))
+                .keypairName(OPENSTACK_KEYPAIR_NAME)
+                .addSecurityGroup("default")
                 .build();
 
-        Set<? extends NodeMetadata> nodes = null;
-        try {
-            nodes = compute.createNodesInGroup(dh.getName(), 1, template);
-        } catch (RunNodesException e) {
-            throw new Exception("Could not start Dockerhost." + e.getMessage());
-        }
-
-        NodeMetadata nodeMetadata = nodes.iterator().next();
-        String ip = nodeMetadata.getPrivateAddresses().iterator().next();
+        Server server = os.compute().servers().boot(sc);
+        String uri = server.getAccessIPv4();
 
         if (PUBLICIPUSAGE) {
-            FloatingIPApi floatingIPs = novaApi.getFloatingIPApi("myregion").get(); // "myregion" is the default region
-            FluentIterable<FloatingIP> IPlist = floatingIPs.list();
-            String publicIP = null;
-            for (FloatingIP floatingIP : IPlist) {
-                if (floatingIP.getInstanceId() == null) {
-                    publicIP = floatingIP.getIp();
-                    floatingIPs.addToServer(publicIP, nodeMetadata.getProviderId());
+            org.openstack4j.model.compute.FloatingIP freeIP = null;
+            List<? extends FloatingIP> list = os.compute().floatingIps().list();
+            for (org.openstack4j.model.compute.FloatingIP ip : list) {
+                if (ip.getFixedIpAddress() == null) {
+                    freeIP = ip;
                     break;
                 }
             }
-            if (publicIP == null) {
+            if (freeIP == null) {
                 throw new Exception("No more floating IPs available");
             }
-            ip = publicIP;
+            ActionResponse ipresponse = os.compute().floatingIps().addFloatingIP(server, freeIP.getFloatingIpAddress());
+            if (!ipresponse.isSuccess()) {
+                throw new Exception("Dockerhost could not be started. Error: "+ipresponse.getFault());
+            }
+            uri = freeIP.getFloatingIpAddress();
         }
-        dh.setName(nodeMetadata.getHostname());
-        dh.setUrl(ip);
+        dh.setName(server.getId());
+        dh.setUrl(uri);
 
-        log.info("Server with id: " + dh.getName() + " and IP " + ip + " was started.");
+        log.info("Server with id: " + dh.getName() + " and IP " + uri + " was started.");
         //wait until the dockerhost is available
         Boolean connection = false;
         while (!connection) {
@@ -167,17 +138,13 @@ public class OpenStackService implements ICloudProviderService {
         return dh;
     }
 
+    public final void stopDockerHost(String name) {
+        ActionResponse r = os.compute().servers().action(name, Action.STOP);
 
-    public final void stopDockerHost(final String name) {
-        Set<? extends NodeMetadata> nodeMetadatas = compute.destroyNodesMatching(new Predicate<NodeMetadata>() {
-            @Override
-            public boolean apply(@Nullable NodeMetadata input) {
-                boolean contains = input.getName().contains(name);
-                return contains;
-            }
-        });
-        for (NodeMetadata nodeMetadata : nodeMetadatas) {
-            log.info("DockerHost terminated " + nodeMetadata.getName());
+        if (!r.isSuccess()) {
+            log.error("Dockerhost could not be stopped", r.getFault());
+        } else {
+            log.info("DockerHost terminated " + name);
         }
     }
 
@@ -225,17 +192,6 @@ public class OpenStackService implements ICloudProviderService {
         return new DockerContainer();
     }
 
-    private void loadOpenStackData() {
-        Set<? extends Hardware> profiles = compute.listHardwareProfiles();
-        for (Hardware profile : profiles) {
-            hardwareProfiles.put(profile.getName(), profile);
-        }
-        Set<? extends org.jclouds.compute.domain.Image> images = compute.listImages();
-        for (org.jclouds.compute.domain.Image image : images) {
-            imageProfiles.put(image.getProviderId(), image);
-        }
-    }
-
     private DockerClient getDockerClient(String url, int connectTimeout){
         return DefaultDockerClient.builder().
                 uri(URI.create("http://" + url + ":2375")).
@@ -247,7 +203,7 @@ public class OpenStackService implements ICloudProviderService {
         return getDockerClient(url, 3000000);
     }
 
-    public void stopDockerContainer(String url, String containerId){
+    public void stopDockerContainer(String url, String containerId) {
         final DockerClient docker = getDockerClient(url);
         try {
             // Kill container

@@ -13,6 +13,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,12 +29,22 @@ public class PropagatorService implements IPropagatorService {
     public void propagate(List<ServiceData> o) {
         ServiceData s = o.get(0);
         if(s != null && s.getSender() != null) //log.info("Propagating from "+ s.getSender().getIp()+ ":"+s.getSender().getPort());
-        commService.sendToParent(Constants.URL_PROPAGATE, HttpMethod.POST, new HttpEntity(o),
-                new ParameterizedTypeReference<Object>(){});
+        try {
+            commService.sendToParent(Constants.URL_PROPAGATE, HttpMethod.POST, new HttpEntity(o),
+                    new ParameterizedTypeReference<Object>() {});
+        }catch (Exception ex){
+            log.warn("Data propagation failed. Either the parent isn't available or not correctly configured.");
+        }
     }
 
     public List<TaskAssignment> propagateTaskRequests(List<TaskRequest> requests){
-        return commService.sendToParent(Constants.URL_PROPAGATE_TASK_REQUESTS, HttpMethod.POST, new HttpEntity(requests),
-                new ParameterizedTypeReference<List<TaskAssignment>>(){});
+        List<TaskAssignment> list = new ArrayList<TaskAssignment>();
+        try {
+            list = commService.sendToParent(Constants.URL_PROPAGATE_TASK_REQUESTS, HttpMethod.POST,
+                    new HttpEntity(requests), new ParameterizedTypeReference<List<TaskAssignment>>() {});
+        } catch(Exception ex){
+            log.warn("Task request propagation failed. Either the parent isn't available or not correctly configured.");
+        }
+        return list;
     }
 }

@@ -21,7 +21,7 @@ import java.util.Set;
 @Slf4j
 public class DeviceFailure implements IDeviceFailure {
     @Override
-    public EventResult hanldeDeviceFailure(Fogdevice fd, List<ApplicationAssignment> applicationAssignments) {
+    public EventResult handleDeviceFailure(Fogdevice fd, List<ApplicationAssignment> applicationAssignments) {
         Set<ApplicationAssignment> affectedAssignments = new HashSet<ApplicationAssignment>();
         List<TaskAssignment> servicesToMigrate = new ArrayList<TaskAssignment>();
 

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.UUID;
 
 /**
@@ -82,15 +83,20 @@ public class SetupService implements ApplicationRunner {
 
 
         Fogdevice parent = null;
+        Fogdevice fallbackParent = null;
+        Fogdevice fallbackGrandparent = null;
+        boolean cloudFailed = false;
         try {
             parent = commService.requestParent(location);
         } catch(Exception e){
             log.warn("Cloud is not reachable.");
+            cloudFailed = true;
         }
-        Fogdevice fallbackParent = new Fogdevice("parentId", DeviceType.CLOUD_FOG_MIDDLEWARE, propertyService.getParentIp(),
-                propertyService.getParentPort(), new Location(), null);
         if(parent == null || (parent.getIp().equals(propertyService.getIp()) && parent.getPort()==port)){
             // if the cloud-fog middleware does not answer a standard parent from the application file is used
+            int parentPort = propertyService.getParentPort();
+            fallbackParent = new Fogdevice("parentId", Utils.getDeviceTypeFromPort(parentPort),
+                    propertyService.getParentIp(), parentPort, new Location(), null);
             parent = fallbackParent;
         }
         dbService.setParent(parent);
@@ -103,18 +109,21 @@ public class SetupService implements ApplicationRunner {
             log.warn("Parent is not reachable.");
         }
         if(m == null) {
-            log.info("---- FALLBACK TO CLOUD-FOG MIDDLEWARE PARENT ----");
+            log.info("---- FALLBACK TO GRAND PARENT ----");
             // could not pair with parent -> pair with fallback parent (cloud-fog middleware)
-            dbService.setParent(fallbackParent);
+            if(cloudFailed){
+                dbService.setParent(fallbackParent);
+            } else {
+                int grandParentPort = propertyService.getGrandParentPort();
+                fallbackGrandparent = new Fogdevice("grandparentId", Utils.getDeviceTypeFromPort(grandParentPort),
+                        propertyService.getGrandParentIp(), grandParentPort, new Location(), null);
+                dbService.setParent(fallbackGrandparent);
+            }
             try {
                 commService.sendPairRequest();
             } catch(Exception e){
                 log.warn("Fallback Parent is not reachable.");
             }
         }
-
-//        dbService.removeChildren();
-//        Fogdevice child = new Fogdevice("child1", DeviceType.FOG_CELL, "128.131.172.118", 8081, null);
-//        dbService.addChild(child);
     }
 }

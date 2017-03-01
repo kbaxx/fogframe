@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # reasoner/test/{countT1}/{countT2}/{countT3}/{countT4}/{minutes}
 #http post http://192.168.1.101:8080/reasoner/test/3/2/3/0/2
+http post http://192.168.1.101:8080/reasoner/test/1/1/1/1/2
+#http post http://192.168.1.101:8080/reasoner/test/1/1/1/0/2
 
 # no time limit
 #http post http://192.168.1.101:8080/reasoner/test/3/2/3/0/-1
@@ -33,7 +35,7 @@
 #http post http://192.168.1.101:8080/reasoner/test/4/8/12/1/5
 
 # 26 services - 5 minutes
-http post http://192.168.1.101:8080/reasoner/test/4/8/12/2/10
+#http post http://192.168.1.101:8080/reasoner/test/4/8/12/2/10
 
 # 50 services - 5 minutes (VM stopped after migration)
 # #1 all devices online but fc1 - then add it (2x t2 services migrated from cloud to fc1)

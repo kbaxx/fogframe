@@ -20,7 +20,7 @@ public interface ICloudProviderService {
      * @param dh docker host just containing of some information like name, ..
      * @return returns the filled docker host object with url and others
      */
-    DockerHost startVM(DockerHost dh);
+    DockerHost startVM(DockerHost dh) throws Exception;
 
     /**
      * Stops the VM with the passed name
