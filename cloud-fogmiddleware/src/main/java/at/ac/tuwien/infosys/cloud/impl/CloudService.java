@@ -29,7 +29,7 @@ public class CloudService implements ICloudService {
     private IRequestService requestService;
 
     @Autowired
-    @Qualifier("OpenStackNew")
+    @Qualifier("OpenStackOld")
     private ICloudProviderService openStackService;
 
     /**

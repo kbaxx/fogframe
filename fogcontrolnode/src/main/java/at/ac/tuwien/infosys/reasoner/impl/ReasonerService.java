@@ -3,6 +3,7 @@ package at.ac.tuwien.infosys.reasoner.impl;
 import at.ac.tuwien.infosys.communication.ICommunicationService;
 import at.ac.tuwien.infosys.database.impl.DatabaseService;
 import at.ac.tuwien.infosys.model.*;
+import at.ac.tuwien.infosys.model.exception.ResourceProvisioningException;
 import at.ac.tuwien.infosys.propagator.IPropagatorService;
 import at.ac.tuwien.infosys.reasoner.IReasonerService;
 import at.ac.tuwien.infosys.reasoner.events.IDeviceAccedence;
@@ -37,7 +38,7 @@ public class ReasonerService implements IReasonerService {
 
 
     /**
-     * REPLACEABLE POLICIES
+     * FOG LANDSCAPE POLICIES
      */
     @Autowired
     private IResourceProvisioning resourceProvisioning;
@@ -179,9 +180,10 @@ public class ReasonerService implements IReasonerService {
         ApplicationAssignment assignment = new ApplicationAssignment();
         try {
             assignment = resourceProvisioning.handleTaskRequests(children, fogRequests);
-        } catch(Exception e) {
-            log.error("ERROR: A resource provisioning error occurred. ERROR: " + e.getMessage());
-            // TODO: stop the services that are already deployed
+        } catch(ResourceProvisioningException e) {
+            log.error("ERROR: A resource provisioning error occurred. ERROR: " + e.getCause().getMessage());
+            // stop the services that were already deployed in the process
+            stopFailedApplicationServices(e.getAssignment());
             return null;
         }
 
@@ -234,13 +236,13 @@ public class ReasonerService implements IReasonerService {
         long stopCloudTime = System.nanoTime();
         long cloudduration = stopCloudTime - startCloudTime;
         seconds = ((double)cloudduration / 1000000000);
+        if(cloudRequests.size()==0) seconds = 0;
         clouddeploymentTimes.put(cloudrequestCount, seconds);
         timeStr = new DecimalFormat("#.##########").format(seconds);
         log.info("cloud service deployment time : " + timeStr + " Seconds for "+cloudrequestCount+ " services");
 
         return assignment;
     }
-
 
     public Set<Fogdevice> getTopologyChildren(){
         Set<Fogdevice> directChildren = dbService.getChildren();
@@ -269,7 +271,6 @@ public class ReasonerService implements IReasonerService {
         sd.setReasoningPurpose(true);
         sd.setKey("taskRequests");
         sd.setApplication(application);
-//        sd.setRequests(requests);
         data.add(sd);
         propagatorService.propagate(data);
         return new Message(Constants.URL_PROPAGATE, true);
@@ -306,12 +307,11 @@ public class ReasonerService implements IReasonerService {
             log.error("-- Cloud deployment error. Not all requests were assigned successfully");
             return new ArrayList<TaskAssignment>();
         }
-
         cloudRequestCount += cloudRequests.size();
         return assignments;
     }
 
-    public void stopFailedApplicationServices(ApplicationAssignment assignment){
+    private void stopFailedApplicationServices(ApplicationAssignment assignment){
         log.info("-- Stopping Application with "+assignment.getAssignedTasks().size()+" services");
         // stop all services of the assignment
         for(TaskAssignment ass: assignment.getAssignedTasks()){
@@ -406,7 +406,6 @@ public class ReasonerService implements IReasonerService {
         removeApplicationAssignment(old);
 
         // create new one and add it to the list
-//        ApplicationAssignment newAppAss = new ApplicationAssignment();
         old.setOpenRequests(new ArrayList<>());
         old.setAssignedTasks(oldAssignments);
         applicationAssignments.add(old);
@@ -436,7 +435,6 @@ public class ReasonerService implements IReasonerService {
         log.info("--- MANUAL STOPPING APPLICATIONS ---");
         Iterator<ApplicationAssignment> appIter = applicationAssignments.iterator();
         while(appIter.hasNext()){
-//            stopFailedApplicationServices(iterator.next());
             ApplicationAssignment a = appIter.next();
             Iterator<TaskAssignment> taskIter = a.getAssignedTasks().iterator();
             while(taskIter.hasNext()){
@@ -565,7 +563,6 @@ public class ReasonerService implements IReasonerService {
             // correct the applicationassignment
             adaptApplicationAssignment(assignment, applicationAssignment.getAssignedTasks());
         }
-
         log.info("--- Service migration successful");
     }
 
@@ -579,7 +576,6 @@ public class ReasonerService implements IReasonerService {
         if(applicationAssignments.size() < 1) {
             return;
         }
-
         EventResult result = deviceFailure.handleDeviceFailure(fd, applicationAssignments);
         if(result == null) return;
 

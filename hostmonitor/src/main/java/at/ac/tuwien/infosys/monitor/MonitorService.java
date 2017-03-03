@@ -29,6 +29,8 @@ public class MonitorService {
     }
 
 
+    private int counter = 0;
+
     @Scheduled(fixedDelayString = "${fog.monitor.delay}")
     private void monitorUtilization() {
         long freeRam = operatingSystemMXBean.getFreePhysicalMemorySize();
@@ -37,7 +39,11 @@ public class MonitorService {
         double ram = (((totalRam-freeRam)*1.0)/(totalRam*1.0))*100.0;
         double cpu = operatingSystemMXBean.getSystemCpuLoad()*100.0;
 
-        System.out.println(new Date()+": CPU="+cpu+", RAM="+ram+", Storage="+storage);
+        counter++;
+        if(counter == 53) {
+            System.out.println(new Date() + ": CPU=" + cpu + ", RAM=" + ram + ", Storage=" + storage);
+            counter = 0;
+        }
 
         try {
             // save to db

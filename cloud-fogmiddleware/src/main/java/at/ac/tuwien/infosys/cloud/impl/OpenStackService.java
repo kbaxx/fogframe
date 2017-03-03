@@ -45,7 +45,6 @@ import java.util.*;
 @Service("OpenStackOld")
 @Slf4j
 public class OpenStackService implements ICloudProviderService {
-//public class OpenStackService {
 
     @Value("${cloud.dockerhost.image}")
     private String dockerhostImage;

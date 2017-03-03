@@ -13,7 +13,6 @@ public class ServiceData {
 
     private Fogdevice sender;
     private String receiverServiceKey;
-//    private Set<TaskRequest> requests = new HashSet<TaskRequest>();
     private Application application;
     private String key;
     private List<HashMap> data = new ArrayList<HashMap>();

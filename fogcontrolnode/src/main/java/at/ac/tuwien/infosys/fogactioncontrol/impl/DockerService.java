@@ -116,7 +116,6 @@ public class DockerService implements IContainerService {
             DockerImage image = sharedDb.getServiceImage(serviceKey);
             // 1. get dockerfile
             String dockerfile = image.getDockerfile();
-//            String dockerfile = sharedDb.getServiceImage(serviceKey);
             // 2. build image
             String imageId = createImageFromDockerfile(dockerfile, serviceKey);
             log.info("Created image with imageID="+imageId);

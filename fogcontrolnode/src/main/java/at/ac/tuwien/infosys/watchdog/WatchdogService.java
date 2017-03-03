@@ -67,7 +67,6 @@ public class WatchdogService {
 
 
 
-
     @Scheduled(fixedDelayString = "${fog.watchdog.delay}", initialDelay = 5*1000)
     private void scheduledCheck(){
         // only the root fog control node runs the watchdog

@@ -28,7 +28,9 @@ public class PropagatorService implements IPropagatorService {
 
     public void propagate(List<ServiceData> o) {
         ServiceData s = o.get(0);
-        if(s != null && s.getSender() != null) //log.info("Propagating from "+ s.getSender().getIp()+ ":"+s.getSender().getPort());
+        if(s != null && s.getSender() != null) {
+            //log.info("Propagating from "+ s.getSender().getIp()+ ":"+s.getSender().getPort());
+        }
         try {
             commService.sendToParent(Constants.URL_PROPAGATE, HttpMethod.POST, new HttpEntity(o),
                     new ParameterizedTypeReference<Object>() {});

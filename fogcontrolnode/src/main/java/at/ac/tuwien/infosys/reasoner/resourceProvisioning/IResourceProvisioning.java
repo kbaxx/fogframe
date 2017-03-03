@@ -3,6 +3,7 @@ package at.ac.tuwien.infosys.reasoner.resourceProvisioning;
 import at.ac.tuwien.infosys.model.ApplicationAssignment;
 import at.ac.tuwien.infosys.model.Fogdevice;
 import at.ac.tuwien.infosys.model.TaskRequest;
+import at.ac.tuwien.infosys.model.exception.ResourceProvisioningException;
 
 import java.util.Set;
 
@@ -19,7 +20,7 @@ public interface IResourceProvisioning {
      * @param children children fog devices to place the services on
      * @param requests task requests resulting in deployed service containers
      * @return returns the application assignment with successful taskassignments and open task requests
-     * @throws Exception exception if anything happens during the placement
+     * @throws ResourceProvisioningException exception if anything happens during the placement
      */
-    ApplicationAssignment handleTaskRequests(Set<Fogdevice> children, Set<TaskRequest> requests) throws Exception;
+    ApplicationAssignment handleTaskRequests(Set<Fogdevice> children, Set<TaskRequest> requests) throws ResourceProvisioningException;
 }

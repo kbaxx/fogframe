@@ -19,6 +19,7 @@ import org.glassfish.jersey.internal.util.Base64;
 import org.openstack4j.api.Builders;
 import org.openstack4j.api.OSClient;
 import org.openstack4j.model.common.ActionResponse;
+import org.openstack4j.model.common.Identifier;
 import org.openstack4j.model.compute.*;
 import org.openstack4j.openstack.OSFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +32,6 @@ import java.util.*;
 @Service("OpenStackNew")
 @Slf4j
 public class NewOpenStackService implements ICloudProviderService {
-//public class NewOpenStackService {
 
     @Value("${cloud.dockerhost.image}")
     private String dockerhostImage;
@@ -64,6 +64,13 @@ public class NewOpenStackService implements ICloudProviderService {
                 .credentials(OPENSTACK_USERNAME,OPENSTACK_PASSWORD)
                 .tenantName(OPENSTACK_TENANT_NAME)
                 .authenticate();
+
+        // ToDo: the new V3 authenticator should be used to successfully stop VMs. Currently this version is not
+        // supported by the OpenStack implementation!
+//        os = OSFactory.builderV3()
+//                .endpoint(OPENSTACK_AUTH_URL)
+//                .credentials(OPENSTACK_USERNAME,OPENSTACK_PASSWORD)
+//                .authenticate();
 
         log.info("Successfully connected to " + OPENSTACK_AUTH_URL + " on tenant " + OPENSTACK_TENANT_NAME + " with user " + OPENSTACK_USERNAME);
     }
@@ -139,6 +146,8 @@ public class NewOpenStackService implements ICloudProviderService {
     }
 
     public final void stopDockerHost(String name) {
+        // ToDo: if the next line throws a session exception the new V3 keystone authentication is needed and the
+        // current openstack implementation does not support this version.
         ActionResponse r = os.compute().servers().action(name, Action.STOP);
 
         if (!r.isSuccess()) {
