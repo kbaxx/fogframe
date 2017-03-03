@@ -1,5 +1,4 @@
-![logo](https://github.com/keyban/fogframe/blob/master/logo_fogframe.png)
-# fogframe
+![fogframe](https://github.com/keyban/fogframe/blob/master/logo_fogframe.png)
 
 This repository embodies a set of microservices developed in Java together forming a researched fog computing framework. The project consists of the cloud-fog middleware, fog control node, fog cell, hostmonitor, and the fog data.
 
