@@ -138,7 +138,7 @@ public class CloudService implements ICloudService {
      * @param url url of the host VM
      * @param image image to deploy on the VM
      * @return returns the resulting docker container
-     * @throws Exception throws an exception if something goes wrong
+     * @throws Exception throws an exception if something goets wrong
      */
     private DockerContainer startDockerContainerOnVM(String url, DockerImage image) throws Exception {
         DockerContainer container = openStackService.startDockerContainer(url, image);
@@ -246,7 +246,6 @@ public class CloudService implements ICloudService {
      */
     private void stopEmptyVMs(){
         // if the vm does not have any containers, stop VM
-        // TODO: check concurrent mod exception
         Iterator<Map.Entry<DockerHost, List<ServiceAssignment>>> iterator = vmMappings.entrySet().iterator();
         while(iterator.hasNext()){
             Map.Entry<DockerHost, List<ServiceAssignment>> e = iterator.next();
